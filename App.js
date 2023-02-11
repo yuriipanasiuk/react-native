@@ -1,25 +1,44 @@
+import { useEffect, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import * as Font from 'expo-font';
-import {
-  StyleSheet,
-  View,
-  ImageBackground,
-  TouchableWithoutFeedback,
-  Keyboard,
-} from 'react-native';
+import * as SplashScreen from 'expo-splash-screen';
+import { useFonts } from 'expo-font';
+import { StyleSheet, View, ImageBackground } from 'react-native';
+
 import RegistrationScreen from './Screens/RegistrationScreen/RegistrationScreen';
+import LoginScreen from './Screens/LoginScreen/LoginScreen';
 
 export default function App() {
-  return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <View style={styles.container}>
-        <ImageBackground style={styles.image} source={require('./assets/images/Photo-BG.jpg')}>
-          <RegistrationScreen />
-        </ImageBackground>
+  const [user, setUser] = useState(false);
+  const [fontsLoaded] = useFonts({
+    'Roboto-Regulat': require('./assets/fonts/Roboto-Regular.ttf'),
+    'Roboto-Bold': require('./assets/fonts/Roboto-Bold.ttf'),
+  });
 
-        <StatusBar style="auto" />
-      </View>
-    </TouchableWithoutFeedback>
+  useEffect(() => {
+    async function prepare() {
+      SplashScreen.preventAutoHideAsync();
+    }
+    prepare();
+  }, []);
+
+  if (!fontsLoaded) {
+    return null;
+  } else {
+    SplashScreen.hideAsync();
+  }
+
+  return (
+    <View style={styles.container}>
+      <ImageBackground
+        style={styles.image}
+        source={require('./assets/images/Photo-BG.jpg')}
+      >
+        <RegistrationScreen />
+        {/* <LoginScreen /> */}
+      </ImageBackground>
+
+      <StatusBar style="auto" />
+    </View>
   );
 }
 
