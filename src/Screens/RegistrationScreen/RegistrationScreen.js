@@ -13,8 +13,8 @@ import {
   Image,
 } from 'react-native';
 
-import AddImageIcon from '../../assets/images/svg/addImageIcon.svg';
-import AddImageActiveIcon from '../../assets/images/svg/addImageIconActive.svg';
+import AddImageIcon from '../../../assets/images/svg/addImageIcon.svg';
+import AddImageActiveIcon from '../../../assets/images/svg/addImageIconActive.svg';
 
 //TODO: when click on keyboar return set state to false
 const initialValue = {
