@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   Keyboard,
   TouchableWithoutFeedback,
+  ImageBackground,
 } from 'react-native';
 
 //TODO: when click on keyboar return set state to false
@@ -18,15 +19,16 @@ const initialValue = {
   password: '',
 };
 
-const LoginScreen = () => {
+const LoginScreen = ({ navigation }) => {
   const [isKeyBoardShown, setIsKeyBoardShown] = useState(false);
   const [showPassword, setShowPassword] = useState(true);
   const [userValue, setUserValue] = useState(initialValue);
 
-  const keyboardHide = () => {
+  const onSubmit = () => {
     setIsKeyBoardShown(false);
     Keyboard.dismiss();
     console.log(userValue);
+    navigation.navigate('Home');
     setUserValue(initialValue);
   };
 
@@ -41,84 +43,97 @@ const LoginScreen = () => {
 
   return (
     <TouchableWithoutFeedback onPress={handleContainerClick}>
-      <KeyboardAvoidingView
-        behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
-      >
-        <View
-          style={{
-            ...styles.container,
-            paddingBottom: isKeyBoardShown ? 0 : 132,
-          }}
+      <View style={styles.wraper}>
+        <ImageBackground
+          style={styles.image}
+          source={require('../../../assets/images/Photo-BG.jpg')}
         >
-          <View style={styles.form}>
-            <Text style={styles.text}>Войти</Text>
-
+          <KeyboardAvoidingView
+            behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
+          >
             <View
               style={{
-                ...styles.inputWraper,
-                marginBottom: isKeyBoardShown ? 32 : 43,
+                ...styles.container,
+                paddingBottom: isKeyBoardShown ? 0 : 132,
               }}
             >
-              <View style={{ marginBottom: 16 }}>
-                <TextInput
-                  style={styles.input}
-                  placeholder="Адрес электронной почты"
-                  placeholderTextColor="#BDBDBD"
-                  onFocus={() => setIsKeyBoardShown(true)}
-                  value={userValue.email}
-                  onChangeText={value =>
-                    setUserValue(prevState => ({ ...prevState, email: value }))
-                  }
-                />
-              </View>
+              <View style={styles.form}>
+                <Text style={styles.text}>Войти</Text>
 
-              <View style={styles.paswordInput}>
-                <TextInput
-                  style={styles.input}
-                  placeholder="Пароль"
-                  placeholderTextColor="#BDBDBD"
-                  secureTextEntry={showPassword}
-                  onFocus={() => setIsKeyBoardShown(true)}
-                  value={userValue.password}
-                  onChangeText={value =>
-                    setUserValue(prevState => ({
-                      ...prevState,
-                      password: value,
-                    }))
-                  }
-                />
-                <View style={styles.paswordShowWraper}>
-                  <TouchableOpacity
-                    activeOpacity={0.8}
-                    onPress={isShowingPassword}
-                  >
-                    <Text style={styles.showLink}>
-                      {showPassword ? 'Показать' : 'Скрыть'}
-                    </Text>
-                  </TouchableOpacity>
+                <View
+                  style={{
+                    ...styles.inputWraper,
+                    marginBottom: isKeyBoardShown ? 32 : 43,
+                  }}
+                >
+                  <View style={{ marginBottom: 16 }}>
+                    <TextInput
+                      style={styles.input}
+                      placeholder="Адрес электронной почты"
+                      placeholderTextColor="#BDBDBD"
+                      onFocus={() => setIsKeyBoardShown(true)}
+                      value={userValue.email}
+                      onChangeText={value =>
+                        setUserValue(prevState => ({
+                          ...prevState,
+                          email: value,
+                        }))
+                      }
+                    />
+                  </View>
+
+                  <View style={styles.paswordInput}>
+                    <TextInput
+                      style={styles.input}
+                      placeholder="Пароль"
+                      placeholderTextColor="#BDBDBD"
+                      secureTextEntry={showPassword}
+                      onFocus={() => setIsKeyBoardShown(true)}
+                      value={userValue.password}
+                      onChangeText={value =>
+                        setUserValue(prevState => ({
+                          ...prevState,
+                          password: value,
+                        }))
+                      }
+                    />
+                    <View style={styles.paswordShowWraper}>
+                      <TouchableOpacity
+                        activeOpacity={0.8}
+                        onPress={isShowingPassword}
+                      >
+                        <Text style={styles.showLink}>
+                          {showPassword ? 'Показать' : 'Скрыть'}
+                        </Text>
+                      </TouchableOpacity>
+                    </View>
+                  </View>
                 </View>
+
+                {!isKeyBoardShown && (
+                  <View>
+                    <TouchableOpacity
+                      activeOpacity={0.8}
+                      style={styles.button}
+                      onPress={onSubmit}
+                    >
+                      <Text style={styles.buttonText}>Войти</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      activeOpacity={0.8}
+                      onPress={() => navigation.navigate('Registration')}
+                    >
+                      <Text style={styles.link}>
+                        Нет аккаунта? Зарегистрироваться
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                )}
               </View>
             </View>
-
-            {!isKeyBoardShown && (
-              <View>
-                <TouchableOpacity
-                  activeOpacity={0.8}
-                  style={styles.button}
-                  onPress={keyboardHide}
-                >
-                  <Text style={styles.buttonText}>Войти</Text>
-                </TouchableOpacity>
-                <TouchableOpacity activeOpacity={0.8}>
-                  <Text style={styles.link}>
-                    Нет аккаунта? Зарегистрироваться
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            )}
-          </View>
-        </View>
-      </KeyboardAvoidingView>
+          </KeyboardAvoidingView>
+        </ImageBackground>
+      </View>
     </TouchableWithoutFeedback>
   );
 };
@@ -126,6 +141,15 @@ const LoginScreen = () => {
 export default LoginScreen;
 
 const styles = StyleSheet.create({
+  wraper: {
+    flex: 1,
+    justifyContent: 'flex-end',
+  },
+  image: {
+    flex: 1,
+    resizeMode: 'cover',
+    justifyContent: 'flex-end',
+  },
   container: {
     position: 'relative',
     paddingTop: 32,

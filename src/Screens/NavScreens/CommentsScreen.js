@@ -11,8 +11,8 @@ import {
   ScrollView,
 } from 'react-native';
 
-import ArrowIcon from '../../assets/images/svg/arrow-left.svg';
-import ArrowTopIcon from '../../assets/images/svg/arrow-top.svg';
+import ArrowIcon from '../../../assets/images/svg/arrow-left.svg';
+import ArrowTopIcon from '../../../assets/images/svg/arrow-top.svg';
 
 export const CommentsScreen = () => {
   const [isShowKeyBoard, setIsShowKeyBoard] = useState(false);

@@ -1,36 +1,7 @@
 import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 
-import GridIcon from '../../assets/images/svg/grid.svg';
-import LogOutIcon from '../../assets/images/svg/log-out.svg';
-import UnionIcon from '../../assets/images/svg/union.svg';
-import UserIcon from '../../assets/images/svg/user.svg';
-
 export const PostsScreen = () => {
-  return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.title}>Публикации</Text>
-
-        <TouchableOpacity style={styles.logOutBtn} activeOpacity={0.8}>
-          <LogOutIcon width={24} height={24} />
-        </TouchableOpacity>
-      </View>
-
-      <View style={styles.footer}>
-        <TouchableOpacity activeOpacity={0.8}>
-          <GridIcon width={24} height={24} />
-        </TouchableOpacity>
-
-        <TouchableOpacity activeOpacity={0.8} style={styles.unionBtn}>
-          <UnionIcon width={13} height={13} />
-        </TouchableOpacity>
-
-        <TouchableOpacity activeOpacity={0.8}>
-          <UserIcon width={24} height={24} />
-        </TouchableOpacity>
-      </View>
-    </View>
-  );
+  return <View style={styles.container}></View>;
 };
 
 const styles = StyleSheet.create({

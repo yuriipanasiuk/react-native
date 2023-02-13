@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   Keyboard,
   TouchableWithoutFeedback,
+  ImageBackground,
   Image,
 } from 'react-native';
 
@@ -23,16 +24,17 @@ const initialValue = {
   password: '',
 };
 
-const RegistrationScreen = () => {
+const RegistrationScreen = ({ navigation }) => {
   const [isKeyBoardShown, setIsKeyBoardShown] = useState(false);
   const [showPassword, setShowPassword] = useState(true);
   const [userValue, setUserValue] = useState(initialValue);
   const [addImage, setAddImage] = useState(false);
 
-  const keyboardHide = () => {
+  const onSubmit = () => {
     setIsKeyBoardShown(false);
     Keyboard.dismiss();
     console.log(userValue);
+    navigation.navigate('Home');
     setUserValue(initialValue);
   };
 
@@ -51,109 +53,128 @@ const RegistrationScreen = () => {
 
   return (
     <TouchableWithoutFeedback onPress={handleContainerClick}>
-      <KeyboardAvoidingView
-        behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
-      >
-        <View
-          style={{
-            ...styles.container,
-            paddingBottom: isKeyBoardShown ? 0 : 78,
-          }}
+      <View style={styles.wraper}>
+        <ImageBackground
+          style={styles.image}
+          source={require('../../../assets/images/Photo-BG.jpg')}
         >
-          <View style={styles.imageContainer}>
-            <View style={styles.addButton}>
-              <TouchableOpacity activeOpacity={0.8} onPress={handleAddImage}>
-                {addImage ? (
-                  <View style={styles.activeIconButton}>
-                    <AddImageActiveIcon width={25} height={25} />
-                  </View>
-                ) : (
-                  <AddImageIcon width={25} height={25} />
-                )}
-              </TouchableOpacity>
-            </View>
-          </View>
-
-          <View style={styles.form}>
-            <Text style={styles.text}>Регистрация</Text>
-
+          <KeyboardAvoidingView
+            behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
+          >
             <View
               style={{
-                ...styles.inputWraper,
-                marginBottom: isKeyBoardShown ? 32 : 43,
+                ...styles.container,
+                paddingBottom: isKeyBoardShown ? 0 : 78,
               }}
             >
-              <View style={{ marginBottom: 16 }}>
-                <TextInput
-                  style={styles.input}
-                  placeholder="Логин"
-                  placeholderTextColor="#BDBDBD"
-                  onFocus={() => setIsKeyBoardShown(true)}
-                  value={userValue.login}
-                  onChangeText={value =>
-                    setUserValue(prevState => ({ ...prevState, login: value }))
-                  }
-                />
-              </View>
-
-              <View style={{ marginBottom: 16 }}>
-                <TextInput
-                  style={styles.input}
-                  placeholder="Адрес электронной почты"
-                  placeholderTextColor="#BDBDBD"
-                  onFocus={() => setIsKeyBoardShown(true)}
-                  value={userValue.email}
-                  onChangeText={value =>
-                    setUserValue(prevState => ({ ...prevState, email: value }))
-                  }
-                />
-              </View>
-
-              <View style={styles.paswordInput}>
-                <TextInput
-                  style={styles.input}
-                  placeholder="Пароль"
-                  placeholderTextColor="#BDBDBD"
-                  secureTextEntry={showPassword}
-                  onFocus={() => setIsKeyBoardShown(true)}
-                  value={userValue.password}
-                  onChangeText={value =>
-                    setUserValue(prevState => ({
-                      ...prevState,
-                      password: value,
-                    }))
-                  }
-                />
-                <View style={styles.paswordShowWraper}>
+              <View style={styles.imageContainer}>
+                <View style={styles.addButton}>
                   <TouchableOpacity
                     activeOpacity={0.8}
-                    onPress={isShowingPassword}
+                    onPress={handleAddImage}
                   >
-                    <Text style={styles.showLink}>
-                      {showPassword ? 'Показать' : 'Скрыть'}
-                    </Text>
+                    {addImage ? (
+                      <View style={styles.activeIconButton}>
+                        <AddImageActiveIcon width={25} height={25} />
+                      </View>
+                    ) : (
+                      <AddImageIcon width={25} height={25} />
+                    )}
                   </TouchableOpacity>
                 </View>
               </View>
-            </View>
 
-            {!isKeyBoardShown && (
-              <View>
-                <TouchableOpacity
-                  activeOpacity={0.8}
-                  style={styles.button}
-                  onPress={keyboardHide}
+              <View style={styles.form}>
+                <Text style={styles.text}>Регистрация</Text>
+
+                <View
+                  style={{
+                    ...styles.inputWraper,
+                    marginBottom: isKeyBoardShown ? 32 : 43,
+                  }}
                 >
-                  <Text style={styles.buttonText}>Зарегистрироваться</Text>
-                </TouchableOpacity>
-                <TouchableOpacity activeOpacity={0.8}>
-                  <Text style={styles.link}>Уже есть аккаунт? Войти</Text>
-                </TouchableOpacity>
+                  <View style={{ marginBottom: 16 }}>
+                    <TextInput
+                      style={styles.input}
+                      placeholder="Логин"
+                      placeholderTextColor="#BDBDBD"
+                      onFocus={() => setIsKeyBoardShown(true)}
+                      value={userValue.login}
+                      onChangeText={value =>
+                        setUserValue(prevState => ({
+                          ...prevState,
+                          login: value,
+                        }))
+                      }
+                    />
+                  </View>
+
+                  <View style={{ marginBottom: 16 }}>
+                    <TextInput
+                      style={styles.input}
+                      placeholder="Адрес электронной почты"
+                      placeholderTextColor="#BDBDBD"
+                      onFocus={() => setIsKeyBoardShown(true)}
+                      value={userValue.email}
+                      onChangeText={value =>
+                        setUserValue(prevState => ({
+                          ...prevState,
+                          email: value,
+                        }))
+                      }
+                    />
+                  </View>
+
+                  <View style={styles.paswordInput}>
+                    <TextInput
+                      style={styles.input}
+                      placeholder="Пароль"
+                      placeholderTextColor="#BDBDBD"
+                      secureTextEntry={showPassword}
+                      onFocus={() => setIsKeyBoardShown(true)}
+                      value={userValue.password}
+                      onChangeText={value =>
+                        setUserValue(prevState => ({
+                          ...prevState,
+                          password: value,
+                        }))
+                      }
+                    />
+                    <View style={styles.paswordShowWraper}>
+                      <TouchableOpacity
+                        activeOpacity={0.8}
+                        onPress={isShowingPassword}
+                      >
+                        <Text style={styles.showLink}>
+                          {showPassword ? 'Показать' : 'Скрыть'}
+                        </Text>
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+                </View>
+
+                {!isKeyBoardShown && (
+                  <View>
+                    <TouchableOpacity
+                      activeOpacity={0.8}
+                      style={styles.button}
+                      onPress={onSubmit}
+                    >
+                      <Text style={styles.buttonText}>Зарегистрироваться</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      activeOpacity={0.8}
+                      onPress={() => navigation.navigate('Login')}
+                    >
+                      <Text style={styles.link}>Уже есть аккаунт? Войти</Text>
+                    </TouchableOpacity>
+                  </View>
+                )}
               </View>
-            )}
-          </View>
-        </View>
-      </KeyboardAvoidingView>
+            </View>
+          </KeyboardAvoidingView>
+        </ImageBackground>
+      </View>
     </TouchableWithoutFeedback>
   );
 };
@@ -161,6 +182,15 @@ const RegistrationScreen = () => {
 export default RegistrationScreen;
 
 const styles = StyleSheet.create({
+  wraper: {
+    flex: 1,
+    justifyContent: 'flex-end',
+  },
+  image: {
+    flex: 1,
+    resizeMode: 'cover',
+    justifyContent: 'flex-end',
+  },
   container: {
     position: 'relative',
     paddingTop: 92,

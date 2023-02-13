@@ -1,24 +1,21 @@
+import { NavigationContainer } from '@react-navigation/native';
+
 import { useEffect, useState } from 'react';
-import { StatusBar } from 'expo-status-bar';
+import { Dimensions } from 'react-native';
 import * as SplashScreen from 'expo-splash-screen';
 import { useFonts } from 'expo-font';
-import { StyleSheet, View, ImageBackground, Dimensions } from 'react-native';
-
-import RegistrationScreen from './Screens/RegistrationScreen/RegistrationScreen';
-import LoginScreen from './Screens/LoginScreen/LoginScreen';
-import { PostsScreen } from './Nav/PostsScreen';
-import { CreatePostsScreen } from './Nav/CreatePostsScreen';
-import { CommentsScreen } from './Nav/CommentsScreen';
+import { useRoute } from './router';
 
 const windowDimensions = Dimensions.get('window');
 const screenDimensions = Dimensions.get('screen');
 
 export default function App() {
-  const [user, setUser] = useState(false);
-  const [dimensions, setDimensions] = useState({
-    window: windowDimensions,
-    screen: screenDimensions,
-  });
+  const [isLogIn, setIsLogIn] = useState(true);
+  // const [dimensions, setDimensions] = useState({
+  //   window: windowDimensions,
+  //   screen: screenDimensions,
+  // });
+  const routing = useRoute(isLogIn);
 
   const [fontsLoaded] = useFonts({
     'Roboto-Regulat': require('../assets/fonts/Roboto-Regular.ttf'),
@@ -26,15 +23,15 @@ export default function App() {
     'Inter-Bold': require('../assets/fonts//Inter-Bold.ttf'),
   });
 
-  useEffect(() => {
-    const subscription = Dimensions.addEventListener(
-      'change',
-      ({ window, screen }) => {
-        setDimensions({ window, screen });
-      }
-    );
-    return () => subscription?.remove();
-  });
+  // useEffect(() => {
+  //   const subscription = Dimensions.addEventListener(
+  //     'change',
+  //     ({ window, screen }) => {
+  //       setDimensions({ window, screen });
+  //     }
+  //   );
+  //   return () => subscription?.remove();
+  // });
 
   useEffect(() => {
     async function prepare() {
@@ -49,32 +46,5 @@ export default function App() {
     SplashScreen.hideAsync();
   }
 
-  return (
-    <View style={styles.container}>
-      <ImageBackground
-        style={styles.image}
-        source={require('../assets/images/Photo-BG.jpg')}
-      >
-        {/* <RegistrationScreen /> */}
-        {/* <LoginScreen /> */}
-        {/* <PostsScreen /> */}
-        {/* <CreatePostsScreen /> */}
-        <CommentsScreen />
-      </ImageBackground>
-
-      <StatusBar style="auto" />
-    </View>
-  );
+  return <NavigationContainer>{routing}</NavigationContainer>;
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
-  image: {
-    flex: 1,
-    resizeMode: 'cover',
-    justifyContent: 'flex-end',
-  },
-});

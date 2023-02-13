@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {
   View,
   StyleSheet,
@@ -6,11 +7,10 @@ import {
   TextInput,
 } from 'react-native';
 
-import ArrowIcon from '../../assets/images/svg/arrow-left.svg';
-import MapPinIcon from '../../assets/images/svg/map-pin.svg';
-import TrashIcon from '../../assets/images/svg/trash.svg';
-import CameraIcon from '../../assets/images/svg/camera.svg';
-import { useState } from 'react';
+import ArrowIcon from '../../../assets/images/svg/arrow-left.svg';
+import MapPinIcon from '../../../assets/images/svg/map-pin.svg';
+import TrashIcon from '../../../assets/images/svg/trash.svg';
+import CameraIcon from '../../../assets/images/svg/camera.svg';
 
 export const CreatePostsScreen = () => {
   const [downloadImage, setDownloadImage] = useState(false);
