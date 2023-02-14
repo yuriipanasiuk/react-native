@@ -5,114 +5,94 @@ import {
   Text,
   TouchableOpacity,
   TextInput,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from 'react-native';
 
-import ArrowIcon from '../../../assets/images/svg/arrow-left.svg';
-import MapPinIcon from '../../../assets/images/svg/map-pin.svg';
-import TrashIcon from '../../../assets/images/svg/trash.svg';
-import CameraIcon from '../../../assets/images/svg/camera.svg';
+import FontAwesome from '@expo/vector-icons/FontAwesome';
+import Feather from '@expo/vector-icons/Feather';
 
-export const CreatePostsScreen = () => {
+export const CreatePostsScreen = ({ navigation }) => {
   const [downloadImage, setDownloadImage] = useState(false);
 
+  const hideKeyBoard = () => {
+    Keyboard.dismiss();
+  };
+
+  const onPublish = () => {
+    navigation.navigate('PostsScreen');
+  };
+
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.title}>Создать публикацию</Text>
-        <TouchableOpacity style={styles.goBackBtn} activeOpacity={0.8}>
-          <ArrowIcon width={24} height={24} />
-        </TouchableOpacity>
-      </View>
+    <TouchableWithoutFeedback onPress={hideKeyBoard}>
+      <View style={styles.container}>
+        <View style={styles.main}>
+          <View style={styles.imageWraper}>
+            <TouchableOpacity activeOpacity={0.8} style={styles.circle}>
+              <FontAwesome name="camera" size={24} color="#BDBDBD" />
+            </TouchableOpacity>
+          </View>
+          <Text style={styles.downLoadText}>
+            {downloadImage ? 'Редактировать фото' : 'Загрузите фото'}
+          </Text>
 
-      <View style={styles.main}>
-        <View style={styles.imageWraper}>
-          <TouchableOpacity activeOpacity={0.8} style={styles.circle}>
-            <CameraIcon width={24} height={24} />
-          </TouchableOpacity>
-        </View>
-        <Text style={styles.downLoadText}>
-          {downloadImage ? 'Редактировать фото' : 'Загрузите фото'}
-        </Text>
-
-        <View style={styles.nameWraper}>
-          <TextInput
-            style={styles.nameInput}
-            placeholder="Название..."
-            placeholderTextColor="#BDBDBD"
-          />
-        </View>
-
-        <View style={styles.location}>
-          <MapPinIcon width={24} height={24} style={styles.locationBtn} />
-
-          <View style={styles.locationWraper}>
+          <View style={styles.nameWraper}>
             <TextInput
-              style={styles.locationInput}
-              placeholder="Местность..."
+              style={styles.nameInput}
+              placeholder="Название..."
               placeholderTextColor="#BDBDBD"
             />
           </View>
-        </View>
-        <TouchableOpacity activeOpacity={0.8} style={styles.button}>
-          <Text style={styles.buttonText}>Зарегистрироваться</Text>
-        </TouchableOpacity>
-      </View>
 
-      <View style={styles.footer}>
-        <TouchableOpacity activeOpacity={0.8} style={styles.deletePostBtn}>
-          <TrashIcon width={24} height={24} />
-        </TouchableOpacity>
+          <View style={styles.location}>
+            <Feather name="map-pin" size={24} style={styles.locationBtn} />
+
+            <View style={styles.locationWraper}>
+              <TextInput
+                style={styles.locationInput}
+                placeholder="Местность..."
+                placeholderTextColor="#BDBDBD"
+              />
+            </View>
+          </View>
+          <TouchableOpacity
+            activeOpacity={0.8}
+            style={styles.button}
+            onPress={onPublish}
+          >
+            <Text style={styles.buttonText}>Опубликовать</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity activeOpacity={0.8} style={styles.deletePostBtn}>
+            <Feather name="trash-2" size={24} color="#BDBDBD" />
+          </TouchableOpacity>
+        </View>
       </View>
-    </View>
+    </TouchableWithoutFeedback>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    position: 'relative',
     backgroundColor: 'white',
-    // justifyContent: 'space-between',
+    paddingTop: 32,
+    paddingBottom: 33,
   },
-  header: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginHorizontal: 20,
-    paddingTop: 75,
-    paddingBottom: 11,
-    borderBottomWidth: 0.5,
-    flexDirection: 'row',
+  main: {
+    marginHorizontal: 16,
+  },
 
-    borderBottomColor: '#E8E8E8',
-  },
-  footer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 'auto',
-    paddingBottom: 34,
-  },
-  title: {
-    fontSize: 17,
-    fontFamily: 'Roboto-Bold',
-  },
   deletePostBtn: {
     alignItems: 'center',
+    alignSelf: 'center',
     justifyContent: 'center',
     width: 70,
     height: 40,
     backgroundColor: '#F6F6F6',
     borderRadius: 20,
   },
-  goBackBtn: {
-    position: 'absolute',
-    left: 0,
-    bottom: 12,
-  },
-  main: {
-    marginHorizontal: 16,
-    paddingTop: 32,
-    paddingBottom: 120,
-  },
+
   imageWraper: {
     alignItems: 'center',
     justifyContent: 'center',
@@ -147,6 +127,7 @@ const styles = StyleSheet.create({
   locationBtn: {
     position: 'absolute',
     bottom: 15,
+    color: '#BDBDBD',
   },
 
   locationWraper: {
@@ -172,15 +153,16 @@ const styles = StyleSheet.create({
     color: '#212121',
   },
   button: {
-    backgroundColor: '#FF6C00',
+    backgroundColor: '#F6F6F6',
     borderRadius: 100,
+    marginBottom: 120,
     paddingTop: 16,
     paddingBottom: 16,
     justifyContent: 'center',
     alignItems: 'center',
   },
   buttonText: {
-    color: '#ffffff',
+    color: '#BDBDBD',
     fontSize: 16,
     fontFamily: 'Roboto-Regulat',
   },

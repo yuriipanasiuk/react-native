@@ -3,7 +3,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Feather from '@expo/vector-icons/Feather';
 import AntDesign from '@expo/vector-icons/AntDesign';
 
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity, View, StyleSheet } from 'react-native';
+
 import RegistrationScreen from './Screens/RegistrationScreen/RegistrationScreen';
 import LoginScreen from './Screens/LoginScreen/LoginScreen';
 import { PostsScreen } from './Screens/NavScreens/PostsScreen';
@@ -44,12 +45,24 @@ export const useRoute = isAuth => {
         options={{
           headerRight: () => (
             <TouchableOpacity activeOpacity={0.8} style={{ paddingRight: 16 }}>
-              <Feather name="log-out" size={24} color="#212121" />
+              <Feather name="log-out" size={24} color="#BDBDBD" />
             </TouchableOpacity>
           ),
           tabBarShowLabel: false,
           tabBarIcon: ({ focused }) => (
-            <Feather name="grid" size={24} color="#212121" focused={focused} />
+            <View
+              style={{
+                ...styles.btn,
+                backgroundColor: focused ? '#FF6C00' : 'transparent',
+              }}
+            >
+              <Feather
+                name="grid"
+                size={24}
+                color={focused ? '#ffffff' : '#212121'}
+                focused={focused}
+              />
+            </View>
           ),
 
           headerTitle: `Публикации `,
@@ -66,22 +79,55 @@ export const useRoute = isAuth => {
       />
       <Tab.Screen
         options={{
+          headerLeft: () => (
+            <TouchableOpacity activeOpacity={0.8} style={{ paddingLeft: 16 }}>
+              <Feather name="arrow-left" size={24} color="#BDBDBD" />
+            </TouchableOpacity>
+          ),
           tabBarShowLabel: false,
           headerTitle: 'Создать публикацию',
-          tabBarIcon: ({ focused, color, size }) => (
-            <AntDesign name="plus" size={24} color="#212121" focused={true} />
+          tabBarIcon: ({ focused }) => (
+            <View
+              style={{
+                ...styles.btn,
+                backgroundColor: focused ? '#FF6C00' : 'transparent',
+              }}
+            >
+              <AntDesign
+                name="plus"
+                size={24}
+                color={focused ? '#ffffff' : '#212121'}
+                focused={focused}
+              />
+            </View>
           ),
-          tabBarIconStyle: { color: 'red' },
         }}
         name="CreatePostsScreen"
         component={CreatePostsScreen}
       />
       <Tab.Screen
         options={{
+          headerLeft: () => (
+            <TouchableOpacity activeOpacity={0.8} style={{ paddingLeft: 16 }}>
+              <Feather name="arrow-left" size={24} color="#BDBDBD" />
+            </TouchableOpacity>
+          ),
           tabBarShowLabel: false,
           headerTitle: 'Комментарии',
-          tabBarIcon: ({ focused, color }) => (
-            <AntDesign name="user" size={24} color={color} />
+          tabBarIcon: ({ focused }) => (
+            <View
+              style={{
+                ...styles.btn,
+                backgroundColor: focused ? '#FF6C00' : 'transparent',
+              }}
+            >
+              <AntDesign
+                name="user"
+                size={24}
+                color={focused ? '#ffffff' : '#212121'}
+                focused={focused}
+              />
+            </View>
           ),
         }}
         name="CommentsScreen"
@@ -90,3 +136,14 @@ export const useRoute = isAuth => {
     </Tab.Navigator>
   );
 };
+
+const styles = StyleSheet.create({
+  btn: {
+    alignItems: 'center',
+    alignSelf: 'center',
+    justifyContent: 'center',
+    width: 70,
+    height: 40,
+    borderRadius: 20,
+  },
+});
