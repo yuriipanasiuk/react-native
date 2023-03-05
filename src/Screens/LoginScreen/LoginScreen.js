@@ -41,6 +41,10 @@ const LoginScreen = ({ navigation }) => {
     setShowPassword(prevState => !prevState);
   };
 
+  const onReturne = () => {
+    setIsKeyBoardShown(false);
+  };
+
   return (
     <TouchableWithoutFeedback onPress={handleContainerClick}>
       <View style={styles.wraper}>
@@ -79,6 +83,7 @@ const LoginScreen = ({ navigation }) => {
                           email: value,
                         }))
                       }
+                      onSubmitEditing={onReturne}
                     />
                   </View>
 
@@ -96,6 +101,7 @@ const LoginScreen = ({ navigation }) => {
                           password: value,
                         }))
                       }
+                      onSubmitEditing={onReturne}
                     />
                     <View style={styles.paswordShowWraper}>
                       <TouchableOpacity

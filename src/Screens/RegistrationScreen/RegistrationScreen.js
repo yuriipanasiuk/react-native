@@ -51,6 +51,10 @@ const RegistrationScreen = ({ navigation }) => {
     setShowPassword(prevState => !prevState);
   };
 
+  const onReturne = () => {
+    setIsKeyBoardShown(false);
+  };
+
   return (
     <TouchableWithoutFeedback onPress={handleContainerClick}>
       <View style={styles.wraper}>
@@ -106,6 +110,7 @@ const RegistrationScreen = ({ navigation }) => {
                           login: value,
                         }))
                       }
+                      onSubmitEditing={onReturne}
                     />
                   </View>
 
@@ -122,6 +127,7 @@ const RegistrationScreen = ({ navigation }) => {
                           email: value,
                         }))
                       }
+                      onSubmitEditing={onReturne}
                     />
                   </View>
 
@@ -139,6 +145,7 @@ const RegistrationScreen = ({ navigation }) => {
                           password: value,
                         }))
                       }
+                      onSubmitEditing={onReturne}
                     />
                     <View style={styles.paswordShowWraper}>
                       <TouchableOpacity

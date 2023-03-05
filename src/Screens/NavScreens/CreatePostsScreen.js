@@ -7,13 +7,18 @@ import {
   TextInput,
   TouchableWithoutFeedback,
   Keyboard,
+  KeyboardAvoidingView,
 } from 'react-native';
 
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import Feather from '@expo/vector-icons/Feather';
 
+import { MapScreen } from './MapScreen';
+
 export const CreatePostsScreen = ({ navigation }) => {
   const [downloadImage, setDownloadImage] = useState(false);
+  const [place, setPlace] = useState('');
+  const [showLocation, setShowLocation] = useState(false);
 
   const hideKeyBoard = () => {
     Keyboard.dismiss();
@@ -23,49 +28,68 @@ export const CreatePostsScreen = ({ navigation }) => {
     navigation.navigate('PostsScreen');
   };
 
+  const handleChange = text => {
+    setPlace(text);
+  };
+
+  const resetPlace = () => {
+    setPlace('');
+  };
+
+  const handleClick = () => {
+    // console.log('first');
+    setShowLocation(true);
+  };
+
   return (
     <TouchableWithoutFeedback onPress={hideKeyBoard}>
       <View style={styles.container}>
         <View style={styles.main}>
-          <View style={styles.imageWraper}>
-            <TouchableOpacity activeOpacity={0.8} style={styles.circle}>
-              <FontAwesome name="camera" size={24} color="#BDBDBD" />
-            </TouchableOpacity>
-          </View>
-          <Text style={styles.downLoadText}>
-            {downloadImage ? 'Редактировать фото' : 'Загрузите фото'}
-          </Text>
+          <KeyboardAvoidingView behavior="position">
+            <View style={styles.imageWraper}>
+              <TouchableOpacity activeOpacity={0.8} style={styles.circle}>
+                <FontAwesome name="camera" size={24} color="#BDBDBD" />
+              </TouchableOpacity>
+            </View>
+            <Text style={styles.downLoadText}>
+              {downloadImage ? 'Редактировать фото' : 'Загрузите фото'}
+            </Text>
 
-          <View style={styles.nameWraper}>
-            <TextInput
-              style={styles.nameInput}
-              placeholder="Название..."
-              placeholderTextColor="#BDBDBD"
-            />
-          </View>
-
-          <View style={styles.location}>
-            <Feather name="map-pin" size={24} style={styles.locationBtn} />
-
-            <View style={styles.locationWraper}>
+            <View style={styles.nameWraper}>
               <TextInput
-                style={styles.locationInput}
-                placeholder="Местность..."
+                style={styles.nameInput}
+                placeholder="Название..."
                 placeholderTextColor="#BDBDBD"
               />
             </View>
-          </View>
-          <TouchableOpacity
-            activeOpacity={0.8}
-            style={styles.button}
-            onPress={onPublish}
-          >
-            <Text style={styles.buttonText}>Опубликовать</Text>
-          </TouchableOpacity>
 
-          <TouchableOpacity activeOpacity={0.8} style={styles.deletePostBtn}>
-            <Feather name="trash-2" size={24} color="#BDBDBD" />
-          </TouchableOpacity>
+            <View style={styles.location} onPress={handleClick}>
+              <Feather name="map-pin" size={24} style={styles.locationBtn} />
+
+              <View style={styles.locationWraper}>
+                <TextInput
+                  style={styles.locationInput}
+                  placeholder="Местность..."
+                  placeholderTextColor="#BDBDBD"
+                  onChangeText={text => handleChange(text)}
+                  onSubmitEditing={resetPlace}
+                  value={place}
+                />
+              </View>
+              {showLocation && <MapScreen />}
+            </View>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              style={styles.button}
+              onPress={onPublish}
+            >
+              <Text style={styles.buttonText}>Опубликовать</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity activeOpacity={0.8} style={styles.deletePostBtn}>
+              <Feather name="trash-2" size={24} color="#BDBDBD" />
+            </TouchableOpacity>
+          </KeyboardAvoidingView>
         </View>
       </View>
     </TouchableWithoutFeedback>
